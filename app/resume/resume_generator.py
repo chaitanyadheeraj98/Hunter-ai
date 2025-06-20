@@ -1,12 +1,16 @@
 import os
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise EnvironmentError("OPENAI_API_KEY is not set.")
 
-def generate_structured_resume(job_description: str, user_bio: str = "") -> str:
+openai.api_key = api_key
+
+async def generate_structured_resume(job_description: str, user_bio: str = "") -> str:
     prompt = f"""
     You are a professional resume writer. Generate a tailored resume based on the job description below.
 
@@ -28,15 +32,15 @@ def generate_structured_resume(job_description: str, user_bio: str = "") -> str:
     """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+        response = await openai.ChatCompletion.acreate(
+            model="gpt-3.5-turbo",  # Use GPT-4 if accessible
             messages=[
                 {"role": "system", "content": "You are an expert resume generator."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7
         )
-        return response.choices[0].message.content
+        return response.choices[0].message.get('content', '')
     except Exception as e:
         print("Error during OpenAI call:", e)
         raise

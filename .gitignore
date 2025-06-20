@@ -1,7 +1,11 @@
 # Byte-compiled / cache files
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
+*.docx
+~$*
+.env
+
 
 # Virtual environments
 venv/

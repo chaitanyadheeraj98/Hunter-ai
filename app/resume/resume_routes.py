@@ -10,5 +10,5 @@ class ResumeRequest(BaseModel):
 
 @router.post("/generate_resume")
 async def generate_resume(data: ResumeRequest):
-    result = generate_structured_resume(data.job_desc, data.base_resume)
+    result = await generate_structured_resume(data.job_desc, data.base_resume)
     return {"resume": result}

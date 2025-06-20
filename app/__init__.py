@@ -29,13 +29,8 @@ def create_app() -> FastAPI:
     async def root():
         return {"message": "Hunter AI is running"}
 
-
-    # Register routers (add actual routers later)
+    # Register routers
     app.include_router(job_routes.router, prefix="/jobs")
     app.include_router(resume_routes.router, prefix="/resume")
-    # app.include_router(ai_routes.router, prefix="/ai")
-    # app.include_router(notify_routes.router, prefix="/notify")
 
     return app
-
-app = create_app()
