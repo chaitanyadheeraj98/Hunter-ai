@@ -1,9 +1,14 @@
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter
+from pydantic import BaseModel
 from app.resume.resume_generator import generate_structured_resume
 
 router = APIRouter()
 
-@router.post("/generate-resume")
-async def generate_resume(job_desc: str = Form(...), base_resume: str = Form("")):
-    result = generate_structured_resume(job_desc, base_resume)
+class ResumeRequest(BaseModel):
+    job_desc: str
+    base_resume: str = ""
+
+@router.post("/generate_resume")
+async def generate_resume(data: ResumeRequest):
+    result = generate_structured_resume(data.job_desc, data.base_resume)
     return {"resume": result}

@@ -32,7 +32,7 @@ def create_app() -> FastAPI:
 
     # Register routers (add actual routers later)
     app.include_router(job_routes.router, prefix="/jobs")
-    app.include_router(resume_routes.router)
+    app.include_router(resume_routes.router, prefix="/resume")
     # app.include_router(ai_routes.router, prefix="/ai")
     # app.include_router(notify_routes.router, prefix="/notify")
 
